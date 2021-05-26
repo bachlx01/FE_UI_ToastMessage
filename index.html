@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+
+    <button onclick="showSuccess()"> show success</button>
+    <button onclick="showInfo()"> show info</button>
+    <button onclick="showWarning()"> show warning</button>
+    <button onclick="showError()"> show error</button>
+    <div id="toast">
+            
+        </div>
+    </div>
+
+    <script>
+        function toast ({
+            title = '',
+            message = '',
+            type = '',
+            duration = 3000
+        }
+        ) {
+            var main = document.getElementById("toast");
+            if(main) {
+                var icons = {
+                    success: 'fas fa-check-circle',
+                    info: 'fas fa-info-circle',
+                    warning: 'fas fa-exclamation-circle',
+                    error: 'fas fa-exclamation-circle'
+                };
+
+                var delay = (duration/1000).toFixed(2);
+                var toast = document.createElement('div');
+                toast.classList.add('toast', 'toast--'+type);
+                toast.style.animation = 'slideInLeft ease 1s, fadeOut ease 1s '+ delay +'s forwards';
+               
+                toast.innerHTML = '<div class="toast__icon">'+
+                    '<i class="'+ icons[type] +'"></i>'
+                    +'</div><div class="toast__body">'+
+                    '<h3 class="toast__title">Success</h3 class="toast__title">'+
+                    '<p class="toast__msg">'+message +'</p class="toast__msg">'+
+                    '</div><div class="toast__close"><i class="fas fa-times"></i>'+
+                    '</div>';
+                main.appendChild(toast);
+                var fadeOut = setTimeout(function(){
+                    main.removeChild(toast);
+                },4000)
+
+                toast.onclick = function(e) {
+                    if(e.target.closest('.toast__close')){
+                        main.removeChild(toast);
+                        clearTimeout(fadeOut);
+                    }
+                };
+            }
+        };
+
+
+function showSuccess () {
+    toast({
+            title : 'Success!',
+            message : 'Bạn đã đăng nhập thành công!',
+            type : 'success',
+            duration : 3000
+        });
+}
+function showInfo () {
+    toast({
+            title : 'Info!',
+            message : 'Thông tin được gửi đến bạn!',
+            type : 'info',
+            duration : 3000
+        });
+}
+function showWarning() {
+    toast({
+            title : 'Warning!',
+            message : 'Đã có cảnh báo trong quá trình đăng nhập!',
+            type : 'warning',
+            duration : 3000
+        });
+}
+function showError() {
+    toast({
+            title : 'Error!',
+            message : 'Đã có lỗi trong quá trình đăng nhập!',
+            type : 'error',
+            duration : 3000
+        });
+}
+
+    </script>
+</body>
+</html>
